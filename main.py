@@ -22,7 +22,7 @@ pg.setConfigOption('background', '#f0f0f0')
 pg.setConfigOption('foreground', 'k')
 
 # import custom c function
-collatz = ctypes.CDLL("collatz.so")
+collatz = ctypes.CDLL("cfunction/collatz.so")
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
