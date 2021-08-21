@@ -1,4 +1,4 @@
-VERSION = '0.1.1'
+VERSION = '0.1.2'
 
 import sys
 import ctypes
@@ -22,7 +22,7 @@ pg.setConfigOption('background', '#f0f0f0')
 pg.setConfigOption('foreground', 'k')
 
 # import custom c function
-collatz = ctypes.CDLL("cfunction/collatz.so")
+collatz = ctypes.CDLL("cfunction/collatz.dll")
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
