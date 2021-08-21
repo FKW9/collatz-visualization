@@ -45,7 +45,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # configure second plotWidget
         self.plotHisto.showGrid(x=False, y=True, alpha=0.4)
         self.plotHisto.setLabels(title='Digit count in full Sequence', left='Count', bottom='Digit')
-        self.BarItem = pg.BarGraphItem(x=np.arange(1,10), height=0, width=0.5, brush=(0,0,255,120))
+        self.BarItem = pg.BarGraphItem(x=np.arange(1,10), height=0, width=0.5, brush=(0,0,255,110))
         self.plotHisto.addItem(self.BarItem)
 
         # configure third plotWidget
@@ -70,7 +70,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.thread.start()
 
         # starting value
-        self.spinBox.valueChanged.emit(10)
+        self.spinBox.valueChanged.emit(1337)
 		
     def status_update(self, status):
         self.plotHisto.setLabels(title='Digit count in full Sequence'+' '+status)
@@ -141,6 +141,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def about(self):
         QMessageBox.about(self, "Um was geht es?", '<html><head/><body><p><span style=" font-size:9pt; color:#000000;">&quot;Das Collatz-Problem, auch als (3n+1)-Vermutung bezeichnet, ist ein ungelöstes mathematisches Problem, das 1937 von Lothar Collatz gestellt wurde&quot;<br/></span></p><p><span style=" font-size:9pt; color:#000000;">Bei dem Problem geht es um Zahlenfolge, die nach einem einfachen Bildungsgesetz konstruiert werden:<br/>→ Beginne mit irgendeiner natürlichen Zahl</span><span style=" font-size:9pt; font-weight:600; color:#000000;"> n &gt; 0<br/></span><span style=" font-size:9pt; color:#000000;">→ Ist </span><span style=" font-size:9pt; font-weight:600; color:#000000;">n</span><span style=" font-size:9pt; color:#000000;"> gerade, so nimm als nächstes </span><span style=" font-size:9pt; font-weight:600; color:#000000;">n/2<br/></span><span style=" font-size:9pt; color:#000000;">→ Ist </span><span style=" font-size:9pt; font-weight:600; color:#000000;">n</span><span style=" font-size:9pt; color:#000000;"> ungerade, so nimm als nächstes </span><span style=" font-size:9pt; font-weight:600; color:#000000;">3n+1<br/></span><span style=" font-size:9pt; color:#000000;">→ Wiederhole die Vorgehensweise mit der erhaltenen Zahl<br/></span></p><p><span style=" font-size:9pt; color:#000000;">Quellen:<br/></span><a href="https://de.wikipedia.org/wiki/Collatz-Problem"><span style=" font-size:9pt; text-decoration: underline; color:#1E00FF;">Wikipedia Eintrag<br/></span></a><a href="https://www.youtube.com/watch?v=094y1Z2wpJg&amp;amp;ab_channel=Veritasium"><span style=" font-size:9pt; text-decoration: underline; color:#1E00FF;">Veritasium auf YouTube</span></a></p></body></html>')
 
+    # reimplement closeEvent method
     def closeEvent(self, event):
         self.thread.quit()
         self.thread.wait()
