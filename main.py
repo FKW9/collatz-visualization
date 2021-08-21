@@ -28,6 +28,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+        self.spinBox.setValue(1337)
         self.horizontalSlider.setMaximum(10000)
 
         # set title
@@ -70,7 +71,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.thread.start()
 
         # starting value
-        self.spinBox.valueChanged.emit(1337)
+        self.spinBox.valueChanged.emit(self.spinBox.value())
 		
     def status_update(self, status):
         self.plotHisto.setLabels(title='Digit count in full Sequence'+' '+status)
