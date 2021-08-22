@@ -1,0 +1,2 @@
+#define COLLATZZ_API __declspec(dllexport)
+#define COLLATZZ_API __declspec(dllimport)
