@@ -165,15 +165,14 @@ class CalculateValues(QObject):
         """
         self.status.emit('(calculating...)')
 
-        # array in which our digit counts are stored
-        arr_ = range(1,19)
-        # convert to C long array which is our buffer
-        digit_count = (ctypes.c_long * len(arr_))(*arr_)
-        # C Function implementation: void get_digit_count(long *buf, long val){...}
+        # C unsigned long long array which is our buffer
+        digit_count = (ctypes.c_ulonglong * 9)()
+        val = ctypes.c_ulonglong(val)
+        # C Function implementation: void get_digit_count(unsigned long long *buf, unsigned long long val){...}
         collatz.get_digit_count(digit_count, val)
 
         self.status.emit('')
-        self.data.emit(digit_count[::2]) # Bug: every second item is zero?
+        self.data.emit(digit_count[:])
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
