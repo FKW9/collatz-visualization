@@ -3,7 +3,6 @@ VERSION = '0.1.5'
 import sys
 import ctypes
 
-from numpy.core.arrayprint import dtype_is_implied
 import icon_rc
 import numpy as np
 import pyqtgraph as pg
