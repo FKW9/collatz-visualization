@@ -11,7 +11,7 @@ COLLATZZ_API char get_first_digit(unsigned long long val) {
 	// already fast
 	digit = (char)log10(val);
 
-	// faster than math.log10
+	// faster than math.pow
 	for (char i = 0; i < digit; ++i)
 		power *= 10;
 
