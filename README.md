@@ -9,5 +9,5 @@ Features:
 - Plot a histogram, which displays how often the first digit of each iteration in a full sequence occurs.
   This histogram should showcase Benfords Law.
 
-- Since the digit counts are huge numbers, i calculate them in an c function externally, which is then imported to the python script via a shared library (.so file).
+- Since the digit counts are huge numbers, i calculate them in an c++ function externally, which is then imported to the python script via a shared library (dll).
   (Because python was too slow for me, even with ctypes and numpy arrays/numbers...)
