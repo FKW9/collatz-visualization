@@ -320,7 +320,7 @@ class CalcStoppingTimes(QObject):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    app.setWindowIcon(QtGui.QIcon(':icon.ico'))
+    app.setWindowIcon(QtGui.QIcon('resources/icon.ico'))
     win = MainWindow()
     win.show()
     sys.exit(app.exec())
