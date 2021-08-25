@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'a.ui'
+# Form implementation generated from reading ui file 'win.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -104,7 +104,7 @@ class Ui_MainWindow(object):
         self.spinBox.setAccelerated(False)
         self.spinBox.setProperty("showGroupSeparator", False)
         self.spinBox.setDecimals(0)
-        self.spinBox.setMaximum(1e+174)
+        self.spinBox.setMaximum(1000000000000.0)
         self.spinBox.setProperty("value", 100.0)
         self.spinBox.setObjectName("spinBox")
         self.horizontalLayout_3.addWidget(self.spinBox)
