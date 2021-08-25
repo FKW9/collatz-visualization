@@ -30,7 +30,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        #uic.loadUi('resources/a.ui', self)
+        #uic.loadUi('resources/win.ui', self)
         self.spinBox.setMaximum(1000000000000)
         self.horizontalSlider.valueChanged.connect(self.spinBox.setValue)
 
@@ -322,7 +322,7 @@ class CalcStoppingTimes(QObject):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    app.setWindowIcon(QtGui.QIcon('resources/icon.ico'))
+    app.setWindowIcon(QtGui.QIcon(':3n1.ico'))
     win = MainWindow()
     win.show()
     sys.exit(app.exec())

@@ -15,6 +15,9 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1169, 709)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(":/3n1.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        MainWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.centralwidget)
@@ -174,3 +177,4 @@ class Ui_MainWindow(object):
         self.checkStop.setText(_translate("MainWindow", "Stopping Times Histogram"))
         self.checkLog.setText(_translate("MainWindow", "Stock Market Trend"))
 from pyqtgraph import PlotWidget
+import icon_rc
