@@ -8,7 +8,7 @@ unsigned char get_first_digit(uint_fast64_t val) {
 	unsigned char digit, first_digit;
 	uint_fast64_t power = 1;
 
-	// already fast
+	// already kinda fast
 	digit = (unsigned char)log10(val);
 
 	// faster than math.log10
