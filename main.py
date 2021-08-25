@@ -31,6 +31,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         #uic.loadUi('resources/a.ui', self)
+        self.spinBox.setMaximum(1000000000000)
         self.horizontalSlider.valueChanged.connect(self.spinBox.setValue)
 
         self.digit_count = []
@@ -309,7 +310,8 @@ class CalcStoppingTimes(QObject):
         self.busy = True
         self.status.emit('calculating stopping times...')
 
-        arr_size = collatz.get_arr_size(int(val))
+        val = ctypes.c_ulonglong(int(val))
+        arr_size = collatz.get_arr_size(val)
         stops, frequ = (ctypes.c_ulonglong * arr_size)(), (ctypes.c_ulonglong * arr_size)()
         collatz.get_stopping_times(stops, frequ)
 
