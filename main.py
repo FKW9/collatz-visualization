@@ -1,5 +1,3 @@
-VERSION = '0.2.0'
-
 import sys
 import ctypes
 import icon_rc
@@ -14,16 +12,17 @@ from PyQt5.QtWinExtras import QtWin
 from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 
-# to show taskbar item...
-app_id = u'3N+1.V'+VERSION
-QtWin.setCurrentProcessExplicitAppUserModelID(app_id)
+VERSION = '0.2.0'
+
+# to show taskbar icon...
+QtWin.setCurrentProcessExplicitAppUserModelID(u'3N+1.V'+VERSION)
 
 # set colors of plots
 pg.setConfigOption('background', '#f0f0f0')
 pg.setConfigOption('foreground', 'k')
 pg.setConfigOptions(antialias=True)
 
-# import custom c function
+# import custom c lib
 collatz = ctypes.CDLL('collatz_c/x64/Release/collatz.dll')
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -52,7 +51,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.actionStopCalculation.triggered.connect(self.stop_threads)
         self.spinBox.valueChanged.connect(self.plot_single_sequence)
 
-        # configure first plotWidget 
+        # configure first plotWidget
         self.plotFull.showGrid(x=True, y=True, alpha=0.4)
         self.plotFull.setLabels(title='single sequence', left='value N', bottom='iteration')
         self.curve_single_seq = self.plotFull.plot(symbol='o', symbolSize=4, pen=pg.mkPen('r', width=1))
@@ -112,7 +111,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # starting value
         self.spinBox.valueChanged.emit(int(self.spinBox.value()))
-    
+
     def start_threads(self):
         for t in self.threads:
             t.start()
@@ -200,18 +199,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # calculate angle and offset of linear function
         self.curve_single_log_trend.setAngle(np.degrees(np.arctan(m*1+b - b)))
         self.curve_single_log_trend.setPos((0, b))
-        
+
         if self.checkLog.isChecked():
             self.plotLog.setRange(xRange=x, yRange=[0, np.log10(max(y))])
 
     def plot_digit_count(self, y):
-        
+
         self.bar_graph_item.setOpts(height=y)
         self.digit_count = y
 
         if self.checkHisto.isChecked():
             self.plotHisto.setRange(xRange=range(1,10), yRange=[0, max(y)])
-        
+
     def plot_stopping_times(self, xk, yk):
         self.stops_x = xk
         self.stops_y = yk
@@ -236,7 +235,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.statusbar.showMessage('   '+self.message1+' '+self.message2)
         if len(self.statusbar.currentMessage())==4:
             self.statusbar.setStyleSheet("background-color: #f0f0f0")
-        
+
         if text != None:
             self.statusbar.showMessage(text)
 
@@ -252,7 +251,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if self.w2.busy is True:
             self.update_statusbar('calculation terminated')
             self.bar_graph_2.setOpts(height=0)
-        
+
         for t in self.threads:
             t.start()
 
@@ -270,7 +269,6 @@ class CalcFirstDigitCount(QObject):
     def calculate(self, val):
         """
         Calculates the digit count for each digit from 1-9 in a full collatz sequence.
-        To speed up the process, i wrote a c++ function which does the job for us much faster.
 
         Parameters
         ----------
@@ -299,8 +297,7 @@ class CalcStoppingTimes(QObject):
     @pyqtSlot(float)
     def calculate(self, val):
         """
-        Calculates the digit count for each digit from 1-9 in a full collatz sequence.
-        To speed up the process, i wrote a c++ function which does the job for us much faster.
+        Calculates the stopping times of a sequence and how often it appears in a full sequence.
 
         Parameters
         ----------
