@@ -24,7 +24,7 @@ pg.setConfigOption('foreground', 'k')
 pg.setConfigOptions(antialias=True)
 
 # import custom c function
-collatz = ctypes.CDLL('lib/collatz.dll')
+collatz = ctypes.CDLL('collatz_c/x64/Release/collatz.dll')
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
