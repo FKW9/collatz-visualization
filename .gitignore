@@ -79,7 +79,6 @@ collatz_c/collatz/collatz/collatz.vcxproj
 collatz_c/collatz/collatz/collatz.vcxproj.filters
 collatz_c/collatz/collatz/collatz.vcxproj.user
 collatz_c/collatz/collatz/cpp.hint
-collatz_c/collatz/collatz/dllmain.cpp
 collatz_c/collatz/collatz/x64/Release/collatz.dll.recipe
 collatz_c/collatz/collatz/x64/Release/collatz.iobj
 collatz_c/collatz/collatz/x64/Release/collatz.ipdb
