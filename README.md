@@ -15,7 +15,11 @@ Small program to showcase some properties of the collatz conjecture, also know a
   
 ## How to run:
 - Option 1: Download the executable version in the respective folder. (Only on x64 Systems with x64 Python)
-- Option 2: Clone the repository and start the script with
+- Option 2: Clone the repository with
+```
+git clone --depth 1 https://github.com/mitsubishievo99/collatz-visualization
+```
+and start the script with
 ```
 python main.py
 ```
