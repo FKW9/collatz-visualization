@@ -6,7 +6,7 @@ block_cipher = None
 
 a = Analysis(['main.py'],
              pathex=['C:\\Users\\flori\\Desktop\\env\\collatz-conjecture'],
-             binaries=[('lib\\collatz.dll', '.')],
+             binaries=[('collatz_c\\x64\\Release\\collatz.dll', '.')],
              datas=[('resources\\3n1.ico', '.')],
              hiddenimports=[],
              hookspath=[],

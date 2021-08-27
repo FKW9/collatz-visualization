@@ -10,7 +10,7 @@ from win import Ui_MainWindow
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtWinExtras import QtWin
 from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot
-from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
+from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QShortcut
 
 VERSION = '0.2.0'
 
@@ -32,6 +32,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #uic.loadUi('resources/win.ui', self)
         self.spinBox.setMaximum(1000000000000)
         self.horizontalSlider.valueChanged.connect(self.spinBox.setValue)
+
+        #self.shortcut = QShortcut(QtGui.QKeySequence("ESC"), self)
+        #self.shortcut.activated.connect(self.stop_threads)
 
         self.digit_count = []
         self.threads = []
@@ -244,13 +247,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             t.terminate()
             t.wait()
 
-        if self.w1.busy is True:
+        if self.w1.busy is True or self.w2.busy:
             self.update_statusbar('calculation terminated')
-            self.bar_graph_item.setOpts(height=0)
-
-        if self.w2.busy is True:
-            self.update_statusbar('calculation terminated')
-            self.bar_graph_2.setOpts(height=0)
 
         for t in self.threads:
             t.start()

@@ -271,6 +271,12 @@
    <property name="text">
     <string>Stop Calculation</string>
    </property>
+   <property name="shortcut">
+    <string>Esc</string>
+   </property>
+   <property name="shortcutContext">
+    <enum>Qt::ApplicationShortcut</enum>
+   </property>
   </action>
   <action name="checkGraph">
    <property name="checkable">
