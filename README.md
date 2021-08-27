@@ -5,7 +5,7 @@ Small program to showcase some properties of the collatz conjecture, also know a
 ## Features:
 - Plot a single sequence with given number N
 - Plot a single sequence with the y-axis logarithmic scaled to showcase the "randomness" of the conjecture. Also looks like a bad day on the stock market.
-  Also plot the trend to showcase that it is (most likely) always going down.
+  Also plot the trend to showcase that it is always going down.
 - Plot a histogram, which displays how often the first digit of each iteration in a full sequence occurs.
   This histogram applies to Benfords Law.
 - Plot a histogram, which displays the stopping times of a sequence and how often it appears in a full sequence.
