@@ -10,9 +10,9 @@ from win import Ui_MainWindow
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtWinExtras import QtWin
 from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot
-from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QShortcut
+from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 
-VERSION = '0.2.0'
+VERSION = '0.2.1'
 
 # to show taskbar icon...
 QtWin.setCurrentProcessExplicitAppUserModelID(u'3N+1.V'+VERSION)
