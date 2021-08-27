@@ -13,6 +13,8 @@ Small program to showcase some properties of the collatz conjecture, also know a
 - Since the digit counts / stopping times are huge numbers, i calculate them in an c++ function externally, which is then imported to the python script via a shared library (dll).
   (Because python was too slow for me, even with ctypes and numpy arrays/numbers...)
   
+- ### Tip: Hold ESC to stop an active calculation!
+  
 ## How to run:
 - Option 1: Download the executable version in the respective folder. (Only on x64 Systems with x64 Python)
 - Option 2: Clone the repository with
@@ -23,7 +25,6 @@ and start the script with
 ```
 python main.py
 ```
-
 ## Dependencies
 - numpy >= 1.21.2
 - PyQt5 >= 5.12
