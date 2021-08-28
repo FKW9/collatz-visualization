@@ -4,6 +4,7 @@ import icon_rc
 
 import numpy as np
 import pyqtgraph as pg
+import pyqtgraph.exporters
 
 from win import Ui_MainWindow
 
@@ -12,10 +13,10 @@ from PyQt5.QtWinExtras import QtWin
 from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 
-VERSION = '0.2.1'
+__version__ = '0.2.1'
 
 # to show taskbar icon...
-QtWin.setCurrentProcessExplicitAppUserModelID(u'3N+1.V'+VERSION)
+QtWin.setCurrentProcessExplicitAppUserModelID(u'3N+1.V'+__version__)
 
 # set colors of plots
 pg.setConfigOption('background', '#f0f0f0')
@@ -29,12 +30,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        #uic.loadUi('resources/win.ui', self)
         self.spinBox.setMaximum(1000000000000)
         self.horizontalSlider.valueChanged.connect(self.spinBox.setValue)
-
-        #self.shortcut = QShortcut(QtGui.QKeySequence("ESC"), self)
-        #self.shortcut.activated.connect(self.stop_threads)
 
         self.digit_count = []
         self.threads = []
@@ -45,7 +42,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.message2 = ''
 
         # set title
-        self.setWindowTitle('Collatz Conjecture Visualized V'+VERSION)
+        self.setWindowTitle('Collatz Conjecture Visualized V'+__version__)
         self.splitter_3.setStyleSheet("background-color: #c7c7c7")
         self.statusbar.setStyleSheet("background-color: #f0f0f0")
 
@@ -105,7 +102,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.w2.status.connect(self.update_stopping_histo)
         self.threads.append(self.t2)
 
-        # connect worker signal to process data_digits
+        # connect worker signal to process the entered number
         self.spinBox.valueChanged.connect(self.w1.calculate)
         self.spinBox.valueChanged.connect(self.w2.calculate)
 
@@ -120,6 +117,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             t.start()
 
     def mouse_moved_digit(self, evt):
+        """
+        This method tracks the mouse and displays the digit count at the cursor position.
+
+        Parameters
+        ----------
+        evt : QPointF
+        """
         pos = evt[0]  # using signal proxy turns original arguments into a tuple
         if self.plotHisto.sceneBoundingRect().contains(pos):
             mousePoint = self.plotHisto.plotItem.vb.mapSceneToView(pos)
@@ -134,6 +138,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     self.label_digit_count.setLabel('')
 
     def mouse_moved_stop(self, evt):
+        """
+        This method tracks the mouse and displays the stopping time and its frequency in a full collatz sequence.
+
+        Parameters
+        ----------
+        evt : QPointF
+        """
         pos = evt[0]  # using signal proxy turns original arguments into a tuple
         if self.plotStoppingTimes.sceneBoundingRect().contains(pos):
             mousePoint = self.plotStoppingTimes.plotItem.vb.mapSceneToView(pos)
@@ -200,14 +211,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             m, b = 0, 0
 
         # calculate angle and offset of linear function
-        self.curve_single_log_trend.setAngle(np.degrees(np.arctan(m*1+b - b)))
+        self.curve_single_log_trend.setAngle(np.degrees(np.arctan(m)))
         self.curve_single_log_trend.setPos((0, b))
 
         if self.checkLog.isChecked():
             self.plotLog.setRange(xRange=x, yRange=[0, np.log10(max(y))])
 
     def plot_digit_count(self, y):
-
         self.bar_graph_item.setOpts(height=y)
         self.digit_count = y
 
@@ -215,15 +225,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.plotHisto.setRange(xRange=range(1,10), yRange=[0, max(y)])
 
     def plot_stopping_times(self, xk, yk):
+        self.bar_graph_2.setOpts(x=xk, height=yk)
         self.stops_x = xk
         self.stops_y = yk
-        self.bar_graph_2.setOpts(x=xk, height=yk)
 
         if self.checkStop.isChecked():
             self.plotStoppingTimes.setRange(xRange=xk, yRange=yk)
 
     def about(self):
-        QMessageBox.about(self, 'Collatz Conjecture', '<html><head/><body><p><span style=" font-size:9pt; color:#000000;">The Collatz conjecture is a conjecture in mathematics that concerns sequences defined as follows:<br/><br/>Start with any positive integer</span><span style=" font-size:9pt; font-weight:600; color:#000000;"> n &gt; 0. </span><span style=" font-size:9pt; color:#000000;">Then each term is obtained from the previous term as follows:<br/></span><span style=" font-size:9pt; font-weight:600; color:#000000;"><br/></span><span style=" font-size:9pt; color:#000000;">→ is </span><span style=" font-size:9pt; font-weight:600; color:#000000;">n</span><span style=" font-size:9pt; color:#000000;"> even, then the next term is </span><span style=" font-size:9pt; font-weight:600; color:#000000;">n/2<br/></span><span style=" font-size:9pt; color:#000000;">→ if </span><span style=" font-size:9pt; font-weight:600; color:#000000;">n</span><span style=" font-size:9pt; color:#000000;"> is odd, the next term is </span><span style=" font-size:9pt; font-weight:600; color:#000000;">3n+1<br/><br/></span><span style=" font-size:9pt; color:#000000;">The conjecture is that no matter what value of </span><span style=" font-size:9pt; font-weight:600; color:#000000;">n</span><span style=" font-size:9pt; color:#000000;">, the sequence will always reach </span><span style=" font-size:9pt; font-weight:600; color:#000000;">1.<br/><br/>@TODO:<br/></span><span style=" font-size:9pt; color:#000000;">- add benfords law<br/>- stock market comparison / trend<br/>- stopping time<br/><br/></span><span style=" font-size:9pt; color:#000000;">Source:<br/></span><a href="https://en.wikipedia.org/wiki/Collatz_conjecture"><span style=" font-size:9pt; text-decoration: underline; color:#0000ff;">Wikipedia</span></a><a href="https://de.wikipedia.org/wiki/Collatz-Problem"><span style=" font-size:9pt; text-decoration: underline; color:#1e00ff;"><br/></span></a><a href="https://www.youtube.com/watch?v=094y1Z2wpJg&amp;ab_channel=Veritasium"><span style=" font-size:9pt; text-decoration: underline; color:#0000ff;">Veritasium on YouTube</span></a></p></body></html>')
+        QMessageBox.about(self, 'Collatz Conjecture', '<html><head/><body><p><span style=" font-size:9pt; color:#000000;">The Collatz conjecture is a conjecture in mathematics that concerns sequences defined as follows:<br/><br/>Start with any positive integer</span><span style=" font-size:9pt; font-weight:600; color:#000000;"> n &gt; 0. </span><span style=" font-size:9pt; color:#000000;">Then each term is obtained from the previous term as follows:<br/></span><span style=" font-size:9pt; font-weight:600; color:#000000;"><br/></span><span style=" font-size:9pt; color:#000000;">→ is </span><span style=" font-size:9pt; font-weight:600; color:#000000;">n</span><span style=" font-size:9pt; color:#000000;"> even, then the next term is </span><span style=" font-size:9pt; font-weight:600; color:#000000;">n/2<br/></span><span style=" font-size:9pt; color:#000000;">→ if </span><span style=" font-size:9pt; font-weight:600; color:#000000;">n</span><span style=" font-size:9pt; color:#000000;"> is odd, the next term is </span><span style=" font-size:9pt; font-weight:600; color:#000000;">3n+1<br/><br/></span><span style=" font-size:9pt; color:#000000;">The conjecture is that no matter what value of </span><span style=" font-size:9pt; font-weight:600; color:#000000;">n</span><span style=" font-size:9pt; color:#000000;">, the sequence will always reach </span><span style=" font-size:9pt; font-weight:600; color:#000000;">1.<br/><br/></span><span style=" font-size:9pt; color:#000000;">Source:<br/></span><a href="https://en.wikipedia.org/wiki/Collatz_conjecture"><span style=" font-size:9pt; text-decoration: underline; color:#0000ff;">Wikipedia</span></a><a href="https://de.wikipedia.org/wiki/Collatz-Problem"><span style=" font-size:9pt; text-decoration: underline; color:#1e00ff;"><br/></span></a><a href="https://www.youtube.com/watch?v=094y1Z2wpJg&amp;ab_channel=Veritasium"><span style=" font-size:9pt; text-decoration: underline; color:#0000ff;">Veritasium on YouTube</span></a></p></body></html>')
 
     def update_digit_count_histo(self, status):
         self.message1 = status
@@ -276,10 +286,10 @@ class CalcFirstDigitCount(QObject):
         self.busy = True
         self.status.emit('calculating digit count...')
 
-        val = ctypes.c_ulonglong(int(val))
-        digit_count = (ctypes.c_ulonglong * 9)()
-        # void get_digit_count(unsigned long long *buf, unsigned long long val){...}
-        collatz.get_digit_count(digit_count, val)
+        val = ctypes.c_ulonglong(int(val))          # float to ulonglong
+        digit_count = (ctypes.c_ulonglong * 9)()    # array with length 9
+
+        collatz.get_digit_count(digit_count, val)   # void get_digit_count(unsigned long long *buf, unsigned long long val){...}
 
         self.busy = False
         self.status.emit('')
@@ -305,10 +315,12 @@ class CalcStoppingTimes(QObject):
         self.busy = True
         self.status.emit('calculating stopping times...')
 
-        val = ctypes.c_ulonglong(int(val))
-        arr_size = collatz.get_arr_size(val)
+        val = ctypes.c_ulonglong(int(val))      # float to ulonglong
+        arr_size = collatz.get_arr_size(val)    # get the array size of our stopping times
+
+        # init arrays with given length
         stops, frequ = (ctypes.c_ulonglong * arr_size)(), (ctypes.c_ulonglong * arr_size)()
-        collatz.get_stopping_times(stops, frequ)
+        collatz.get_stopping_times(stops, frequ) # receive stopping times in arrays
 
         self.busy = False
         self.status.emit('')
