@@ -3,6 +3,12 @@
 #include "framework.h"
 #include "collatz.h"
 
+/**
+ * @brief Get the first digit of an integer
+ *
+ * @param val
+ * @return unsigned char
+ */
 unsigned char get_first_digit(uint_fast64_t val) {
 
 	unsigned char digit, first_digit;
@@ -20,16 +26,21 @@ unsigned char get_first_digit(uint_fast64_t val) {
 	return first_digit;
 }
 
+/**
+ * @brief Get the digit count of a full collatz sequence
+ *
+ * @param buf array with size of 9. Array index correspondes to the digit, value stored on array index is the count.
+ * @param val collatz starting number
+ */
 void get_digit_count(uint_fast64_t* buf, uint_fast64_t val) {
 
 	uint_fast64_t value;
-	uint_fast64_t digit_count[9] = {};
 
 	// loop over every number from 1 to N
 	for (uint_fast64_t i = 1; i < val + 1; i++) {
 		value = i;
 
-		digit_count[get_first_digit(value) - 1] += 1;
+		buf[get_first_digit(value) - 1] += 1;
 
 		// compute for every iteration every starting digit
 		while (value != 1) {
@@ -38,13 +49,8 @@ void get_digit_count(uint_fast64_t* buf, uint_fast64_t val) {
 			else
 				value = value / 2;
 
-			digit_count[get_first_digit(value) - 1] += 1;
+			buf[get_first_digit(value) - 1] += 1;
 		}
-	}
-
-	// return digit count to buf
-	for (int i = 0; i < 9; i++) {
-		buf[i] = digit_count[i];
 	}
 }
 
